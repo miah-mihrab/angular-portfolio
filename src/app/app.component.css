@@ -1,0 +1,102 @@
+.header {
+  background-color: #F8F9FA;
+}
+
+
+.dev-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.greeting {
+  font-size: 1.5rem;
+  font-weight: 600;
+  font-family: 'Dancing Script',
+    cursive !important;
+
+}
+
+.expertise {
+  font-size: 2rem;
+}
+
+.btn-primary {
+  width: 150px;
+}
+
+h1 {
+  font-size: 4rem;
+}
+
+.services,
+.works {
+  margin-bottom: 100px;
+}
+
+.services .row,
+.works .row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.services .row .card {
+  padding: 10px;
+}
+
+.service-heading,
+.works-heading {
+  font-size: 2.3rem;
+  position: relative;
+}
+
+
+.service-heading::before,
+.works-heading::before {
+  position: absolute;
+  content: "";
+  width: 100px;
+  height: 5px;
+  background-color: black;
+  /* bottom: 40px; */
+  top: 75%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.card-head {
+  font-size: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.work {
+  background-image: url('https://cssslider.com/webdesign/data/upload/2017/10/mobirise4-blocks.png');
+  background-position: center;
+  background-size: cover;
+  height: 300px;
+  margin-left: 50px;
+  margin-bottom: 50px;
+  position: relative;
+}
+
+.work .content {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(248, 249, 250, 0.5);
+  padding: 30px;
+  width: 100%;
+  bottom: 0;
+}
+
+.work .content h4 {
+  font-weight: bolder;
+  font-size: 1.3rem;
+}
