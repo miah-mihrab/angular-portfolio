@@ -1,0 +1,11 @@
+<div class="row">
+  <div class="col-12 border">
+    <div class="row p-3">
+      <ng-container *ngFor="let message of userMessage">
+        <div class="col-12">{{message['user']}} <span
+            class="badge badge-warning float-right">{{ message['newMessage'].length }}</span></div>
+      </ng-container>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,124 @@
+.header {
+  background-color: #F8F9FA;
+
+}
+
+.greeting {
+  font-size: 1.5rem;
+  font-weight: 600;
+  font-family: 'Dancing Script', cursive !important;
+
+}
+
+.expertise {
+  font-size: 2rem;
+}
+
+.btn-primary {
+  width: 150px;
+}
+
+.services,
+.works {
+  margin-bottom: 100px;
+}
+
+.services .row,
+.works .row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.services .row .card {
+  padding: 10px;
+}
+
+.service-heading,
+.works-heading {
+  font-size: 2.3rem;
+  position: relative;
+}
+
+
+.service-heading::before,
+.works-heading::before {
+  position: absolute;
+  content: "";
+  width: 100px;
+  height: 5px;
+  background-color: black;
+  /* bottom: 40px; */
+  top: 75%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.card-head {
+  font-size: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.work {
+  /* background-image: url('https://cssslider.com/webdesign/data/upload/2017/10/mobirise4-blocks.png'); */
+  background-position: center;
+  background-size: cover;
+  height: 300px;
+  margin-left: 50px;
+  margin-bottom: 50px;
+  position: relative;
+}
+
+.work1 {
+  background-image: url('https://cssslider.com/webdesign/data/upload/2017/10/mobirise4-blocks.png');
+}
+
+.work2 {
+  background-image: url('https://cdn6.aptoide.com/imgs/4/b/d/4bd4a1ccae60e015abaa223288afb7b9_screen.png?h=464')
+}
+
+.work3 {
+  background-image: url('https://99designs-start-attachments.imgix.net/alchemy-pictures/2016%2F01%2F29%2F06%2F52%2F16%2F2574220d-7737-4c39-a562-8e153a5d1497%2Fwebsite-hero3.png?auto=format&ch=Width%2CDPR&fm=png&w=824&h=457')
+}
+
+.work4 {
+  background-image: url('https://static.wixstatic.com/media/311dce_ac7e2c0b3e8f436abcaade213fcf4d29~mv2.png/v1/fill/w_1009,h_549,al_c,q_90,usm_0.66_1.00_0.01/dasktop.webp')
+}
+
+.work5 {
+  background-image: url('https://colorlib.com/wp/wp-content/uploads/sites/2/angular-landing-page-template.jpg')
+}
+
+.work6 {
+  background-image: url('https://colorlib.com/wp/wp-content/uploads/sites/2/dexam-angularjs-website-template.jpg')
+}
+
+.work7 {
+  background-image: url('https://cdn.dribbble.com/users/2434511/screenshots/5436828/photographer-landing-page.jpg')
+}
+
+.work8 {
+  background-image: url('https://dmpqsifgr4vyp.cloudfront.net/template/comingsoon9/comingsoon9.jpeg')
+}
+
+.work .content {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(248, 249, 250, 0.8);
+  padding: 10px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.work .content h4 {
+  font-weight: bolder;
+  font-size: 1.3rem;
+}
