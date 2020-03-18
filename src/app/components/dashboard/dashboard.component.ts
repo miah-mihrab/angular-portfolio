@@ -5,14 +5,15 @@ import {
   AngularFireStorage,
   AngularFireStorageReference
 } from '@angular/fire/storage';
+import * as firebase from 'firebase';
 import { finalize } from 'rxjs/operators'
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-
 
   addCompletedProjectForm = new FormGroup({
     title: new FormControl('', [
@@ -25,8 +26,28 @@ export class DashboardComponent implements OnInit {
       Validators.required
     ])
   })
-  file: any;
 
+  validateField(min, max) {
+    return (new FormControl('', [
+      Validators.required,
+      Validators.minLength(min),
+      Validators.maxLength(max),
+      Validators.pattern("[a-zA-Z ]*")
+    ]));
+  }
+  postForm = new FormGroup({
+    title: this.validateField(5, 10),
+    brief: this.validateField(50, 100),
+    details: new FormControl("", [
+      Validators.required,
+      Validators.minLength(100)
+    ])
+  });
+
+  file;
+  uploading: Boolean = false;
+  uploadPercentage: String;
+  downloadUrl: Observable<String>;
   fileRef: AngularFireStorageReference;
 
   constructor(private db: AngularFirestore, private aFireStorage: AngularFireStorage) { }
@@ -58,5 +79,15 @@ export class DashboardComponent implements OnInit {
 
   }
 
+  post() {
+    console.log(document.querySelector("#editor"))
+    console.log(this.postForm.value)
+    this.db.collection('blog-posts').add({
+      title: this.postForm.value.title,
+      post: this.postForm.value.details,
+      brief: this.postForm.value.brief,
+      createdtime: firebase.firestore.FieldValue.serverTimestamp()
+    })
+  }
 
 }

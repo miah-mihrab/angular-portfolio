@@ -41,34 +41,88 @@
         </div>
       </div>
 
-
-      <!-- <div class="row">
-        <div class="col-lg-12 add-completed-project">
-          <form [formGroup]="addCompletedProjectForm" (submit)="onSubmit()">
-
-            <div class="form-group">
-              <label for="title">Project Title</label>
-              <input type="text" class="form-control" placeholder="Enter Title" name="title" formControlName="title">
-            </div>
-            <div class="form-group">
-              <label for="about">Project Brief</label>
-              <textarea name="brief" id="" rows="3" class="form-control" placeholder="About Project"
-                formControlName="about"></textarea>
-            </div>
-            <div class="form-group">
-              <label for="link">Project Live Link</label>
-              <input type="text" class="form-control" placeholder="Enter link" formControlName="live_link">
-            </div>
-            <div class="form-group">
-              <div class="input-group mb-3">
-                <input type="file" (change)="uploadThumbnail($event)">
+      <div>
+        <form class="form-horizontal" [formGroup]="postForm">
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="title">Title:</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="title" placeholder="Enter Ttile" formControlName="title"
+                pattern="[a-zA-Z ]*" />
+              <div
+                *ngIf="postForm.get('title').invalid && (postForm.get('title').dirty || postForm.get('title').touched)"
+                class="alert alert-danger">
+                <div *ngIf="postForm.get('title').errors.required"> * Title is required.</div>
+                <div *ngIf=" postForm.get('title').errors.minlength || postForm.get('title').errors.maxlength">
+                  *
+                  Minimum length 5 &
+                  Maximum length 30
+                </div>
+                <div *ngIf="postForm.get('title').errors.pattern">* Should not any special character or number
+                </div>
               </div>
             </div>
-            <button type="submit" class="btn btn-primary">Add</button>
+          </div>
 
-          </form>
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="brief">Short brief:</label>
+            <div class="col-sm-10">
+              <textarea type="text" class="form-control" id="brief" placeholder="Write Short Description" id=""
+                cols="30" rows="2" formControlName="brief"></textarea>
+              <div
+                *ngIf="postForm.get('brief').invalid && (postForm.get('brief').dirty || postForm.get('brief').touched)"
+                class="alert alert-danger">
+                <div *ngIf="postForm.get('brief').errors.required">
+                  * Brief is required.
+                </div>
+                <div *ngIf="postForm.get('brief').errors.minlength || postForm.get('brief').errors.maxlength">
+                  * Minimum length 50 & Maximum length 100
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="details">Details</label>
+            <div class="col-sm-10">
+              <textarea type="text" class="form-control" id="details" placeholder="Details" id="" cols="30" rows="10"
+                formControlName="details" required minlength=50></textarea>
+
+
+              <div
+                *ngIf="postForm.get('details').invalid && (postForm.get('details').dirty || postForm.get('details').touched)"
+                class="alert alert-danger">
+                <div *ngIf="postForm.get('details').errors.required">
+                  * Details is required.
+                </div>
+                <div *ngIf="postForm.get('details').errors.minlength || postForm.get('details').errors.maxlength">
+                  * Minimum length 100
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <input type="file" (change)="uploadThumbnail($event)" accept="image/*" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <button type="submit" class="btn btn-primary" [disabled]="postForm.invalid" (click)="post()">Post</button>
+            </div>
+          </div>
+
+
+        </form>
+
+
+        <div class="progress" *ngIf="uploading">
+          <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75"
+            aria-valuemin="0" aria-valuemax="100" [style.width]="uploadPercentage"></div>
         </div>
-      </div> -->
+      </div>
 
     </div>
     <div class="col-3">

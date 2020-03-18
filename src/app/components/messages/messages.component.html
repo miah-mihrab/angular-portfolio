@@ -1,25 +1,25 @@
 <div class="row">
   <div class="col-12 border">
     <div class="row p-3">
-      <ng-container *ngFor="let message of userMessage; let ind=index">
-        <div class="col-12" data-toggle="collapse" (click)="getMessage(message['id'], '#abc'+ind)">
+      <ng-container *ngFor="let message of userMessage; let i=index">
+        <div class="col-12" data-toggle="collapse">
           {{message['user']}}
-          <span class="badge badge-warning float-right">{{ message['newMessage'].length }}</span>
+          <span class="badge badge-warning float-right"
+            (click)="getMessage(message['id'], '#abc'+i)">{{ message['newMessage'].length }}</span>
 
-          <div style="display: none;" [id]="'abc'+ind">
+          <div style="display: none;" [id]="'abc'+i">
             <div class="card card-body col-12">
-              <div class="message-body" *ngIf="userMessage[0]['allMessage']">
+              <div class="message-body" *ngIf="userMessage[0]['allMessage']"
+                style="max-height: 300px; overflow-y: auto;">
                 <ng-container *ngFor="let message of messages;">
                   <h5>{{message}}</h5>
-
                 </ng-container>
-                <form [formGroup]="messageForm">
-                  <textarea name="" id="" rows="1" class="form-control"></textarea>
-                  <button class="btn btn-outline-success btn-sm mt-2" (click)="sendMessage(message.id)">Send</button>
-                </form>
               </div>
               <hr>
-
+              <form [formGroup]="messageForm">
+                <textarea name="" id="" rows="1" class="form-control" formControlName="message"></textarea>
+                <button class="btn btn-outline-success btn-sm mt-2" (click)="sendMessage(message.id)">Send</button>
+              </form>
             </div>
           </div>
         </div>

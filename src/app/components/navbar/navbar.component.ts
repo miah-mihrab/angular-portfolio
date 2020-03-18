@@ -29,11 +29,18 @@ export class NavbarComponent implements OnInit {
   messages: unknown;
   constructor(private db: AngularFirestore, private aFAuth: AngularFireAuth, private authService: AuthService) { }
   ngOnInit(): void {
+
+
+
     this.authService.getState().subscribe(state => {
       if (state) {
         this.user = true;
+
+        console.log(typeof (state.uid))
         this.db.collection('messages').doc(state.uid).valueChanges().subscribe(msg => {
+          // console.log(msg.payload.data())
           this.messages = msg['allMessage'];
+          // console.log(this.messages)
         })
       }
     })
