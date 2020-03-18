@@ -15,6 +15,7 @@ import { environment } from './../environments/environment';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { MessagesComponent } from './components/messages/messages.component';
 import { BriefChartComponent } from './components/brief-chart/brief-chart.component';
+import { AuthService } from './services/auth-service/auth.service';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,7 @@ import { BriefChartComponent } from './components/brief-chart/brief-chart.compon
     ])
 
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

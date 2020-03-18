@@ -17,12 +17,11 @@
         <li class="nav-item active">
           <a class="nav-link" href="#">Blog</a>
         </li>
-        <li class="nav-item active">
-          <a class="nav-link rounded-pill" data-toggle="modal" data-target="#exampleModalCenter">Follow Me!</a>
-        </li>
-        <li class="nav-item active">
-          <a class="nav-link rounded-pill" href="#">Hire Me!</a>
-        </li>
+        <ng-container *ngIf="!user">
+          <li class="nav-item active">
+            <a class="nav-link rounded-pill" data-toggle="modal" data-target="#exampleModalCenter">Follow Me!</a>
+          </li>
+        </ng-container>
         <li class="nav-item active">
           <a class="nav-link rounded-pill" href="#" data-toggle="modal" data-target="#contact-me">Message
             Me!</a>
@@ -69,22 +68,19 @@
   aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle" style="font-weight: bolder;">Hello there</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+      <div class="modal-body" *ngIf="messages" style="max-height: 300px; overflow-y: auto;">
+        <ng-container *ngFor="let message of messages">
+          <h5>{{ message }}</h5>
+        </ng-container>
       </div>
-      <div class="modal-body">
-        <form [formGroup]="messageForm" (submit)="onSubmit()">
-
+      <div class="modal-footer">
+        <form [formGroup]="messageForm" (submit)="onSubmit()" class="col-12">
           <div class="form-group">
-            <textarea name="" class="form-control" id="" rows="5" placeholder="Please ask..."
+            <textarea name="" class="form-control" id="" rows="2" placeholder="Please ask..."
               formControlName="message"></textarea>
           </div>
-          <button type="submit" class="btn btn-primary" (click)="ask()">Send</button>
+          <button type="submit" class="btn btn-primary float-right" (click)="ask()">Send</button>
         </form>
-
       </div>
     </div>
   </div>

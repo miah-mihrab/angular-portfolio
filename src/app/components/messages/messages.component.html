@@ -1,9 +1,28 @@
 <div class="row">
   <div class="col-12 border">
     <div class="row p-3">
-      <ng-container *ngFor="let message of userMessage">
-        <div class="col-12">{{message['user']}} <span
-            class="badge badge-warning float-right">{{ message['newMessage'].length }}</span></div>
+      <ng-container *ngFor="let message of userMessage; let ind=index">
+        <div class="col-12" data-toggle="collapse" (click)="getMessage(message['id'], '#abc'+ind)">
+          {{message['user']}}
+          <span class="badge badge-warning float-right">{{ message['newMessage'].length }}</span>
+
+          <div style="display: none;" [id]="'abc'+ind">
+            <div class="card card-body col-12">
+              <div class="message-body" *ngIf="userMessage[0]['allMessage']">
+                <ng-container *ngFor="let message of messages;">
+                  <h5>{{message}}</h5>
+
+                </ng-container>
+                <form [formGroup]="messageForm">
+                  <textarea name="" id="" rows="1" class="form-control"></textarea>
+                  <button class="btn btn-outline-success btn-sm mt-2" (click)="sendMessage(message.id)">Send</button>
+                </form>
+              </div>
+              <hr>
+
+            </div>
+          </div>
+        </div>
       </ng-container>
 
     </div>
