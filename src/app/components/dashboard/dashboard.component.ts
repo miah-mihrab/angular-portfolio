@@ -1,13 +1,15 @@
+import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { PostService } from './../../services/post/post.service';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AngularFirestore } from '@angular/fire/firestore';
 import {
   AngularFireStorage,
   AngularFireStorageReference
 } from '@angular/fire/storage';
-import * as firebase from 'firebase';
 import { finalize } from 'rxjs/operators'
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -26,17 +28,19 @@ export class DashboardComponent implements OnInit {
       Validators.required
     ])
   })
+  posts;
 
   validateField(min, max) {
     return (new FormControl('', [
       Validators.required,
       Validators.minLength(min),
       Validators.maxLength(max),
-      Validators.pattern("[a-zA-Z ]*")
+      Validators.pattern("[a-zA-Z, ]*")
     ]));
   }
   postForm = new FormGroup({
     title: this.validateField(5, 10),
+    tags: this.validateField(5, 30),
     brief: this.validateField(50, 100),
     details: new FormControl("", [
       Validators.required,
@@ -49,45 +53,51 @@ export class DashboardComponent implements OnInit {
   uploadPercentage: String;
   downloadUrl: Observable<String>;
   fileRef: AngularFireStorageReference;
+  dataloaded: boolean = false;
+  constructor(private aFireStorage: AngularFireStorage, private router: Router, private postService: PostService, private aFAuth: AngularFireAuth, private db: AngularFirestore) { }
 
-  constructor(private db: AngularFirestore, private aFireStorage: AngularFireStorage) { }
+  ngOnInit(): void {
+    this.aFAuth.authState.subscribe(state => {
+      this.db.collection('admin').doc(state.uid).get().subscribe(e => {
+        if (e.data() === undefined) {
+          alert("Your are not authorized to access this route")
+          return this.router.navigate(['/'])
+        } else {
+          this.postService.getAllPost().subscribe(e => {
+            this.posts = e.map(data => {
+              return ({
+                id: data.payload.doc.id,
+                data: data.payload.doc.data()
+              })
+            })
+          })
+          this.dataloaded = true;
+        }
+      })
+    })
 
-  ngOnInit(): void { }
+
+  }
 
   uploadThumbnail(event) {
     this.file = event.target.files[0];
-  }
-  onSubmit() {
     const filePath = `/files/${Date.now()}_${this.file.name}`;
     this.fileRef = this.aFireStorage.ref(filePath);
+  }
+  onSubmit() {
     const task = this.fileRef.put(this.file);
     let formValue = this.addCompletedProjectForm.value;
-    console.log(formValue)
     task.snapshotChanges().pipe(
       finalize(() => {
-        console.log("HERE")
-        this.fileRef.getDownloadURL().subscribe(url => {
-          this.db.collection('/completed-projects').add({
-            title: formValue.title,
-            about: formValue.about,
-            live_link: formValue.live_link,
-            thumbnail: url
-          })
-        })
+        this.postService.addCompletedProject(this.fileRef, formValue);
       })
     ).subscribe()
 
   }
 
-  post() {
-    console.log(document.querySelector("#editor"))
-    console.log(this.postForm.value)
-    this.db.collection('blog-posts').add({
-      title: this.postForm.value.title,
-      post: this.postForm.value.details,
-      brief: this.postForm.value.brief,
-      createdtime: firebase.firestore.FieldValue.serverTimestamp()
-    })
+  edit() { }
+  remove(id, imgUrl) {
+    this.postService.deletePost(id, imgUrl)
   }
 
 }

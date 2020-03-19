@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AuthService } from 'src/app/services/auth-service/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -20,6 +21,14 @@ export class NavbarComponent implements OnInit {
       Validators.required
     ])
   });
+
+  signInFollower = new FormGroup({
+    email: new FormControl('', [
+      Validators.required,
+      Validators.email
+    ])
+  });
+
   messageForm = new FormGroup({
     message: new FormControl('', [
       Validators.required
@@ -27,20 +36,21 @@ export class NavbarComponent implements OnInit {
   })
   user: boolean = false;
   messages: unknown;
-  constructor(private db: AngularFirestore, private aFAuth: AngularFireAuth, private authService: AuthService) { }
+  follower: boolean = false;
+  constructor(private db: AngularFirestore, private aFAuth: AngularFireAuth, private authService: AuthService, private router: Router) { }
   ngOnInit(): void {
-
-
 
     this.authService.getState().subscribe(state => {
       if (state) {
-        this.user = true;
 
-        console.log(typeof (state.uid))
-        this.db.collection('messages').doc(state.uid).valueChanges().subscribe(msg => {
-          // console.log(msg.payload.data())
-          this.messages = msg['allMessage'];
-          // console.log(this.messages)
+        this.db.collection('admin').doc(state.uid).get().subscribe(e => {
+          if (e.data() === undefined) {
+            this.user = true;
+            console.log(this.user)
+            this.db.collection('messages').doc(state.uid).valueChanges().subscribe(msg => {
+              this.messages = msg['allMessage'];
+            })
+          }
         })
       }
     })
@@ -71,10 +81,25 @@ export class NavbarComponent implements OnInit {
             }, { merge: true })
           })
         }
-        // this.db.collection('messages').doc(id).set({
-        //  "message": Fieldvalue.arrayUnion('this.messageForm.value.message')
-        // })
       }
     })
+  }
+
+  setFollower() {
+    this.follower = !this.follower;
+  }
+
+  signIn() {
+    console.log(this.signInFollower.value)
+    this.aFAuth.auth.signInWithEmailAndPassword(this.signInFollower.value.email, '123456').then(() => {
+      console.log("Success")
+      this.router.navigate(['/blog'])
+    }).catch(err => {
+      alert("Something went wrong")
+    })
+  }
+  signout() {
+    this.aFAuth.auth.signOut();
+    this.user = false;
   }
 }

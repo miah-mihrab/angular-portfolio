@@ -1,3 +1,4 @@
+import { PostService } from 'src/app/services/post/post.service';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
@@ -8,17 +9,17 @@ import { HomeComponent } from './components/home/home.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 
-
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { environment } from './../environments/environment';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { MessagesComponent } from './components/messages/messages.component';
-import { BriefChartComponent } from './components/brief-chart/brief-chart.component';
 import { AuthService } from './services/auth-service/auth.service';
 import { BlogComponent } from './components/blog/blog.component';
 import { PostComponent } from './components/post/post.component';
+import { ActionBarComponent } from './components/action-bar/action-bar.component';
+import { AdminComponent } from './components/admin/admin.component';
 
 @NgModule({
   declarations: [
@@ -27,9 +28,10 @@ import { PostComponent } from './components/post/post.component';
     DashboardComponent,
     NavbarComponent,
     MessagesComponent,
-    BriefChartComponent,
     BlogComponent,
-    PostComponent
+    PostComponent,
+    ActionBarComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule,
@@ -42,11 +44,12 @@ import { PostComponent } from './components/post/post.component';
       { path: '', component: HomeComponent },
       { path: 'dashboard', component: DashboardComponent },
       { path: 'blog', component: BlogComponent },
-      { path: 'blog/post/:id', component: PostComponent }
+      { path: 'blog/post/:id', component: PostComponent },
+      { path: 'admin', component: AdminComponent }
     ])
 
   ],
-  providers: [AuthService],
+  providers: [AuthService, PostService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

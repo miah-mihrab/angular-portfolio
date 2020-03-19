@@ -1,3 +1,4 @@
+import { PostService } from 'src/app/services/post/post.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -6,10 +7,21 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-
-  constructor() { }
+  posts: unknown[];
+  dataloaded: boolean = false
+  constructor(private postService: PostService) { }
 
   ngOnInit(): void {
+    this.postService.latestPosts().subscribe(e => {
+      this.posts = e.map(post => {
+        return ({
+          id: post.payload.doc.id,
+          data: post.payload.doc.data()
+        })
+
+      })
+      this.dataloaded = true;
+    })
   }
 
 }

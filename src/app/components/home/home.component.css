@@ -3,6 +3,12 @@
 
 }
 
+.dev-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .greeting {
   font-size: 1.5rem;
   font-weight: 600;
@@ -19,12 +25,12 @@
 }
 
 .services,
-.works {
+.works-section {
   margin-bottom: 100px;
 }
 
 .services .row,
-.works .row {
+.works-section .row {
   display: flex;
   justify-content: center;
   align-items: center;

@@ -1,3 +1,4 @@
+import { PostService } from './../../services/post/post.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Component, OnInit } from '@angular/core';
 
@@ -8,20 +9,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BlogComponent implements OnInit {
   posts: any[];
+  dataloaded: boolean = false;
 
-  constructor(private db: AngularFirestore) { }
+  constructor(private postService: PostService) { }
 
   ngOnInit(): void {
-    this.db.collection('blog-posts').snapshotChanges().subscribe(e => {
-
-    })
-    this.db.collection('blog-posts').snapshotChanges().subscribe(e => {
+    this.postService.getAllPost().subscribe(e => {
       this.posts = e.map(data => {
         return ({
           id: data.payload.doc.id,
           data: data.payload.doc.data()
         })
       });
+      this.dataloaded = true;
     })
   }
 

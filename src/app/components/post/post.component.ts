@@ -1,9 +1,10 @@
+import { AppService } from './../../services/app/app.service';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { AngularFirestore } from '@angular/fire/firestore';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import * as firebase from 'firebase';
+import { PostService } from 'src/app/services/post/post.service';
+
 @Component({
   selector: 'app-post',
   templateUrl: './post.component.html',
@@ -18,35 +19,48 @@ export class PostComponent implements OnInit {
   post: {};
   user: {};
   id: any;
-  constructor(private route: ActivatedRoute, private db: AngularFirestore, private aFAuth: AngularFireAuth) { }
+  dataloaded: boolean = false;
+  constructor(private route: ActivatedRoute, private aFAuth: AngularFireAuth, private postService: PostService, private appService: AppService) { }
 
   ngOnInit(): void {
     this.aFAuth.authState.subscribe(state => {
-      this.db.collection('followers').doc(state.uid).get().subscribe(user => {
-        this.user = ({ username: user.data()['name'], imgUrl: user.data()['imgUrl'] })
+      this.appService.getFollowers(state).subscribe(user => {
+
+        if (user.data()) {
+        this.user = ({
+          username: user.data()['name'], imgUrl: user.data()['imgUrl']
+        })
+        }
+
       })
-    })
+
+    });
+
     this.route.params.subscribe(param => {
       this.id = param.id;
-      this.db.collection('blog-posts').doc(this.id).valueChanges().subscribe(e => {
-        this.db.collection('blog-posts').doc(this.id).collection('comments', ref => ref.orderBy('time', 'asc')).valueChanges().subscribe(ee => {
+      this.postService.getSinglePost(this.id).subscribe(e => {
+        this.postService.getComments(this.id).subscribe(ee => {
           this.post = ({
             data: e,
             comments: ee
           })
         })
+        this.dataloaded = true
       })
     })
   }
 
 
   comment() {
-    this.commentForm.value.commentar = this.user['username'];
-    this.commentForm.value.imgUrl = this.user['imgUrl'];
-    this.commentForm.value.time = Date.now();
-    this.db.collection('blog-posts').doc(this.id).collection('comments').add(this.commentForm.value).catch(err => {
-      console.log('##############################')
-      console.log(err)
-    })
+    if (this.user) {
+      this.commentForm.value.commentar = this.user['username'];
+      this.commentForm.value.imgUrl = this.user['imgUrl'];
+      this.commentForm.value.time = Date.now();
+      this.postService.postComment(this.id, this.commentForm.value);
+    } else {
+      alert("You have to login first!")
+    }
+
   }
+
 }

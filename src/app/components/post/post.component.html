@@ -1,169 +1,211 @@
-<!-- <pre>{{ post | json }}</pre> -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<ng-container *ngIf="dataloaded && post">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand" routerLink="/" routerLinkActive="router-link-active">Portfolio</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+        aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" [routerLink]="['/blog']">Home
+              <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/']">Services</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Content -->
   <div class="container">
-    <a class="navbar-brand" href="#">Start Bootstrap</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-      aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarResponsive">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="#">Home
-            <span class="sr-only">(current)</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">About</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Services</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Contact</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
 
-<!-- Page Content -->
-<div class="container">
+    <div class="row">
 
-  <div class="row">
+      <!-- Post Content Column -->
+      <div class="col-lg-8">
 
-    <!-- Post Content Column -->
-    <div class="col-lg-8">
+        <!-- Title -->
+        <h1 class="mt-4">{{ post['data'].title }}</h1>
 
-      <!-- Title -->
-      <h1 class="mt-4">{{ post['data'].title }}</h1>
+        <!-- Author -->
+        <p class="lead">
+          by
+          <a href="#">Author</a>
+        </p>
 
-      <!-- Author -->
-      <p class="lead">
-        by
-        <a href="#">Author</a>
-      </p>
+        <hr>
 
-      <hr>
-
-      <!-- Date/Time -->
-      <p>{{ (post['data'].createdtime.seconds * 1000) | date : 'MMM d, y, h:mm:ss a'  }}</p>
-
-      <hr>
-
-      <!-- Preview Image -->
-      <img class="img-fluid rounded" src="http://placehold.it/900x300" alt="">
-
-      <hr>
-
-
-      <p>
-        {{post['data'].post}}
-      </p>
-
-      <hr>
-
-      <!-- Comments Form -->
-      <div class="card my-4">
-        <h5 class="card-header">Leave a Comment:</h5>
-        <div class="card-body">
-          <form [formGroup]="commentForm">
-            <div class="form-group">
-              <textarea class="form-control" rows="3" formControlName="comment"></textarea>
+        <!-- Preview Image -->
+        <div class="preview">
+          <img class="img-fluid rounded"
+            [src]="post['data'].imgUrl ? post['data'].imgUrl : 'http://placehold.it/750x300'" alt="">
+          <div class="post-time" style="display: inline-block;">
+            <div class="row">
+              <div class="col-12 flx" style="font-size: 1.8rem;">
+                {{ (post['data'].createdtime.seconds * 1000) | date : 'd'  }}
+              </div>
+              <div class="col-12">{{ (post['data'].createdtime.seconds * 1000) | date : 'MMM y'  }}</div>
             </div>
-            <button type="submit" class="btn btn-primary" (click)="comment()">Submit</button>
-          </form>
+
+          </div>
+          <p>
+            <span class="keyword">Tags: </span><span class="key-value">{{ post['data'].tags }}</span>&nbsp;
+            <span class="keyword">Author: </span><span class="key-value">Author Name</span>&nbsp;
+            <span class="keyword">Comments: </span><span class="key-value">{{ post['comments'].length }}</span>
+          </p>
+
         </div>
-      </div>
+        <hr>
 
-      <!-- Single Comment -->
 
-      <ng-container *ngFor="let comment of post['comments']">
+        <p>
+          {{post['data'].post}}
+        </p>
 
-        <div class="media mb-4">
-          <img class="d-flex mr-3 rounded-circle" [src]="comment.imgUrl" alt="" width="100">
-          <div class="media-body">
+        <hr>
 
-            <h5 class="mt-0">{{ comment.commentar }}</h5>
-            {{comment.comment}}
+        <!-- Comments Form -->
+        <div class="card my-4">
+          <h5 class="card-header">Leave a Comment:</h5>
+          <div class="card-body">
+            <form [formGroup]="commentForm">
+              <div class="form-group">
+                <textarea class="form-control" rows="3" formControlName="comment"></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary" (click)="comment()">Submit</button>
+            </form>
           </div>
         </div>
 
-      </ng-container>
-    </div>
+        <!-- Single Comment -->
 
-    <!-- Sidebar Widgets Column -->
-    <div class="col-md-4">
+        <ng-container *ngFor="let comment of post['comments']">
 
-      <!-- Search Widget -->
-      <div class="card my-4">
-        <h5 class="card-header">Search</h5>
-        <div class="card-body">
-          <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search for...">
-            <span class="input-group-btn">
-              <button class="btn btn-secondary" type="button">Go!</button>
-            </span>
+          <div class="media mb-4">
+            <img class="d-flex mr-3 rounded-circle" [src]="comment.imgUrl" alt="" width="100">
+            <div class="media-body">
+
+              <h5 class="mt-0">{{ comment.commentar }}</h5>
+              {{comment.comment}}
+            </div>
           </div>
-        </div>
+
+        </ng-container>
       </div>
 
-      <!-- Categories Widget -->
-      <div class="card my-4">
-        <h5 class="card-header">Categories</h5>
-        <div class="card-body">
-          <div class="row">
-            <div class="col-lg-6">
-              <ul class="list-unstyled mb-0">
-                <li>
-                  <a href="#">Web Design</a>
-                </li>
-                <li>
-                  <a href="#">HTML</a>
-                </li>
-                <li>
-                  <a href="#">Freebies</a>
-                </li>
-              </ul>
-            </div>
-            <div class="col-lg-6">
-              <ul class="list-unstyled mb-0">
-                <li>
-                  <a href="#">JavaScript</a>
-                </li>
-                <li>
-                  <a href="#">CSS</a>
-                </li>
-                <li>
-                  <a href="#">Tutorials</a>
-                </li>
-              </ul>
+      <!-- Sidebar Widgets Column -->
+      <div class="col-md-4">
+
+        <!-- Search Widget -->
+        <div class="card my-4">
+          <h5 class="card-header">Search</h5>
+          <div class="card-body">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Search for...">
+              <span class="input-group-btn">
+                <button class="btn btn-secondary" type="button">Go!</button>
+              </span>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- Side Widget -->
-      <div class="card my-4">
-        <h5 class="card-header">Side Widget</h5>
-        <div class="card-body">
-          You can put anything you want inside of these side widgets. They are easy to use, and feature the new
-          Bootstrap 4 card containers!
+        <!-- Categories Widget -->
+        <div class="card my-4">
+          <h5 class="card-header">Categories</h5>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-lg-6">
+                <ul class="list-unstyled mb-0">
+                  <li>
+                    <a href="#">Web Design</a>
+                  </li>
+                  <li>
+                    <a href="#">HTML</a>
+                  </li>
+                  <li>
+                    <a href="#">Freebies</a>
+                  </li>
+                </ul>
+              </div>
+              <div class="col-lg-6">
+                <ul class="list-unstyled mb-0">
+                  <li>
+                    <a href="#">JavaScript</a>
+                  </li>
+                  <li>
+                    <a href="#">CSS</a>
+                  </li>
+                  <li>
+                    <a href="#">Tutorials</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
+
+        <!-- Side Widget -->
+        <div class="card my-4">
+          <h5 class="card-header">Side Widget</h5>
+          <div class="card-body">
+            You can put anything you want inside of these side widgets. They are easy to use, and feature the new
+            Bootstrap 4 card containers!
+          </div>
+        </div>
+
       </div>
 
     </div>
+    <!-- /.row -->
 
-  </div>
-  <!-- /.row -->
-
-</div>
-<!-- /.container -->
-
-<!-- Footer -->
-<footer class="py-5 bg-dark">
-  <div class="container">
-    <p class="m-0 text-center text-white">Copyright &copy; Your Website 2019</p>
   </div>
   <!-- /.container -->
-</footer>
+
+  <!-- Footer -->
+  <footer class="py-5 bg-dark">
+    <div class="container">
+      <p class="m-0 text-center text-white">Copyright &copy; Your Website 2019</p>
+    </div>
+    <!-- /.container -->
+  </footer>
+</ng-container>
+
+<ng-container *ngIf="!dataloaded">
+  <div style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;">
+    <div class="spinner-grow text-primary" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+    <div class="spinner-grow text-secondary" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+    <div class="spinner-grow text-success" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+    <div class="spinner-grow text-danger" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+    <div class="spinner-grow text-warning" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+    <div class="spinner-grow text-info" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+    <div class="spinner-grow text-light" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+    <div class="spinner-grow text-dark" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+</ng-container>

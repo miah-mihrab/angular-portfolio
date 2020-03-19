@@ -12,20 +12,26 @@
           <a class="nav-link" href="#">Services</a>
         </li>
         <li class="nav-item active">
-          <a class="nav-link" href="#">Works</a>
+          <a class="nav-link" href="#works">Works</a>
         </li>
         <li class="nav-item active">
-          <a class="nav-link" href="#">Blog</a>
+          <a class="nav-link" href="#blog">Blog</a>
         </li>
         <ng-container *ngIf="!user">
           <li class="nav-item active">
             <a class="nav-link rounded-pill" data-toggle="modal" data-target="#exampleModalCenter">Follow Me!</a>
+
           </li>
         </ng-container>
         <li class="nav-item active">
           <a class="nav-link rounded-pill" href="#" data-toggle="modal" data-target="#contact-me">Message
             Me!</a>
         </li>
+        <ng-container *ngIf="user">
+          <li class="nav-item active">
+            <a class="nav-link rounded-pill" (click)="signout()">Bye</a>
+          </li>
+        </ng-container>
       </ul>
     </div>
   </nav>
@@ -45,19 +51,34 @@
         </button>
       </div>
       <div class="modal-body">
-        <form [formGroup]="followerForm" (submit)="onSubmit()">
-          <div class="form-group">
-            <label for="exampleInputEmail1">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-              placeholder="Enter email" formControlName="email">
-            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-          </div>
-          <div class="form-group">
-            <label for="name">Username</label>
-            <input type="text" class="form-control" placeholder="Username" formControlName="name">
-          </div>
-          <button type="submit" class="btn btn-primary">Follow</button>
-        </form>
+        <ng-container *ngIf="!follower">
+          <form [formGroup]="followerForm" (submit)="onSubmit()">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Email address</label>
+              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                placeholder="Enter email" formControlName="email">
+              <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            </div>
+            <div class="form-group">
+              <label for="name">Username</label>
+              <input type="text" class="form-control" placeholder="Username" formControlName="name">
+            </div>
+            <button type="submit" class="btn btn-primary">Follow</button>
+            <p (click)="setFollower()">Already a follower? <a>SignIn</a></p>
+          </form>
+        </ng-container>
+        <ng-container *ngIf="follower">
+          <form [formGroup]="signInFollower" (submit)="signIn()">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Email address</label>
+              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                placeholder="Enter email" formControlName="email">
+              <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            </div>
+            <button type="submit" class="btn btn-primary">Follow</button>
+            <p (click)="setFollower()">Not a follower? <a>Signup</a></p>
+          </form>
+        </ng-container>
 
       </div>
     </div>
