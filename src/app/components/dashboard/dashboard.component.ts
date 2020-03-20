@@ -10,6 +10,7 @@ import {
 import { finalize } from 'rxjs/operators'
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { AppService } from 'src/app/services/app/app.service';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -54,28 +55,24 @@ export class DashboardComponent implements OnInit {
   downloadUrl: Observable<String>;
   fileRef: AngularFireStorageReference;
   dataloaded: boolean = false;
-  constructor(private aFireStorage: AngularFireStorage, private router: Router, private postService: PostService, private aFAuth: AngularFireAuth, private db: AngularFirestore) { }
+  constructor(private appService: AppService, private aFireStorage: AngularFireStorage, private router: Router, private postService: PostService, private aFAuth: AngularFireAuth, private db: AngularFirestore) { }
 
   ngOnInit(): void {
-    this.aFAuth.authState.subscribe(state => {
-      this.db.collection('admin').doc(state.uid).get().subscribe(e => {
-        if (e.data() === undefined) {
-          alert("Your are not authorized to access this route")
-          return this.router.navigate(['/'])
-        } else {
-          this.postService.getAllPost().subscribe(e => {
-            this.posts = e.map(data => {
-              return ({
-                id: data.payload.doc.id,
-                data: data.payload.doc.data()
-              })
-            })
+    let user = JSON.parse(localStorage.getItem('user'));
+    if (!user.admin) {
+      alert("Your are not authorized to access this route")
+      this.router.navigate(['/'])
+    } else {
+      this.postService.getAllPost().subscribe(e => {
+        this.posts = e.map(data => {
+          return ({
+            id: data.payload.doc.id,
+            data: data.payload.doc.data()
           })
-          this.dataloaded = true;
-        }
+        })
       })
-    })
-
+      this.dataloaded = true;
+    }
 
   }
 
@@ -95,9 +92,13 @@ export class DashboardComponent implements OnInit {
 
   }
 
-  edit() { }
+  edit(id) { }
   remove(id, imgUrl) {
     this.postService.deletePost(id, imgUrl)
+  }
+
+  signout() {
+    this.aFAuth.auth.signOut();
   }
 
 }

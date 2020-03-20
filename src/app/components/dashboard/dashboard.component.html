@@ -10,6 +10,9 @@
       <li class="nav-item">
         <a class="nav-link" routerLink="/">Landing Page</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/" (click)="signout()">Logout</a>
+      </li>
     </ul>
   </nav>
   <div class="container-fluid">
@@ -72,7 +75,8 @@
                     <td>{{ post.data.title }}</td>
                     <td>{{(post.data.createdtime.seconds * 1000) | date : 'MMM d' }}</td>
                     <td>
-                      <button class="btn btn-outline-primary btn-sm mr-2" (click)="edit(post.id)">Edit</button>
+                      <button class="btn btn-outline-primary btn-sm mr-2"
+                        [routerLink]="['/edit/post', post.id]">Edit</button>
                       <button class="btn btn-outline-danger btn-sm"
                         (click)="remove(post.id, post.data.imgUrl)">Remove</button>
                     </td>

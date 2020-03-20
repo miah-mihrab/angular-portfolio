@@ -38,7 +38,7 @@
           <small>Secondary Text</small>
         </h1>
 
-        <ng-container *ngFor="let post of posts">
+        <ng-container *ngFor="let post of posts | paginate: { itemsPerPage: 5, currentPage: p }">
           <!-- Blog Post -->
           <div class="card mb-4">
             <img class="card-img-top" [src]="post.data.imgUrl ? post.data.imgUrl : 'http://placehold.it/750x300'"
@@ -54,8 +54,9 @@
             </div>
           </div>
 
-        </ng-container>
 
+        </ng-container>
+        <pagination-controls (pageChange)="p = $event"></pagination-controls>
       </div>
 
       <!-- Sidebar Widgets Column -->
@@ -66,7 +67,8 @@
           <h5 class="card-header">Search</h5>
           <div class="card-body">
             <div class="input-group">
-              <input type="text" class="form-control" placeholder="Search for...">
+              <input type="text" class="form-control" placeholder="Search by title..." [(ngModel)]="search"
+                (input)="filter()">
               <span class="input-group-btn">
                 <button class="btn btn-secondary" type="button">Go!</button>
               </span>

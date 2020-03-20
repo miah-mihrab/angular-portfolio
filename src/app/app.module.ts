@@ -3,12 +3,12 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 
-
+import { NgxPaginationModule } from 'ngx-pagination';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
@@ -20,6 +20,8 @@ import { BlogComponent } from './components/blog/blog.component';
 import { PostComponent } from './components/post/post.component';
 import { ActionBarComponent } from './components/action-bar/action-bar.component';
 import { AdminComponent } from './components/admin/admin.component';
+import { AppService } from './services/app/app.service';
+import { EditPostComponent } from './components/edit-post/edit-post.component';
 
 @NgModule({
   declarations: [
@@ -31,10 +33,12 @@ import { AdminComponent } from './components/admin/admin.component';
     BlogComponent,
     PostComponent,
     ActionBarComponent,
-    AdminComponent
+    AdminComponent,
+    EditPostComponent
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
@@ -45,11 +49,13 @@ import { AdminComponent } from './components/admin/admin.component';
       { path: 'dashboard', component: DashboardComponent },
       { path: 'blog', component: BlogComponent },
       { path: 'blog/post/:id', component: PostComponent },
+      { path: 'edit/post/:id', component: EditPostComponent },
       { path: 'admin', component: AdminComponent }
-    ])
+    ]),
+    NgxPaginationModule
 
   ],
-  providers: [AuthService, PostService],
+  providers: [AuthService, PostService, AppService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

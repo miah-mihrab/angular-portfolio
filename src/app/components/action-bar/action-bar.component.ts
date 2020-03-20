@@ -13,30 +13,33 @@ import { finalize } from 'rxjs/operators';
 })
 export class ActionBarComponent implements OnInit {
 
-  addCompletedProjectForm = new FormGroup({
-    title: new FormControl('', [
-      Validators.required
-    ]),
-    about: new FormControl('', [
-      Validators.required
-    ]),
-    live_link: new FormControl('', [
-      Validators.required
-    ])
-  })
-
   validateField(min, max) {
     return (new FormControl('', [
       Validators.required,
       Validators.minLength(min),
       Validators.maxLength(max),
-      Validators.pattern("[a-zA-Z, ]*")
+      Validators.pattern("[a-zA-Z0-9, ]+")
     ]));
   }
+
+  addCompletedProjectForm = new FormGroup({
+    title: this.validateField(5, 30),
+    about: this.validateField(20, 100),
+    live_link: new FormControl('', [
+      Validators.required,
+      Validators.pattern(new RegExp('(https?:\/\/[^\s]+)'))
+    ])
+  })
+
+
   postForm = new FormGroup({
-    title: this.validateField(5, 10),
-    tags: this.validateField(5, 30),
-    brief: this.validateField(50, 100),
+    title: this.validateField(5, 30),
+    tags: this.validateField(3, 30),
+    brief: new FormControl("", [
+      Validators.required,
+      Validators.minLength(15),
+      Validators.minLength(50)
+    ]),
     details: new FormControl("", [
       Validators.required,
       Validators.minLength(100)
@@ -52,8 +55,7 @@ export class ActionBarComponent implements OnInit {
 
   constructor(private db: AngularFirestore, private aFireStorage: AngularFireStorage, private postService: PostService) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
 
   uploadThumbnail(event) {
@@ -64,10 +66,8 @@ export class ActionBarComponent implements OnInit {
   onSubmit() {
     const task = this.fileRef.put(this.file);
     let formValue = this.addCompletedProjectForm.value;
-    console.log(formValue)
     task.snapshotChanges().pipe(
       finalize(() => {
-        console.log("HERE")
         this.fileRef.getDownloadURL().subscribe(url => {
           this.db.collection('/completed-projects').add({
             title: formValue.title,
@@ -76,9 +76,9 @@ export class ActionBarComponent implements OnInit {
             thumbnail: url
           })
         })
+        alert("Added a completed project")
       })
     ).subscribe()
-
   }
 
   post() {

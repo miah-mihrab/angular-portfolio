@@ -1,5 +1,6 @@
 import { PostService } from 'src/app/services/post/post.service';
 import { Component, OnInit } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-home',
@@ -9,7 +10,8 @@ import { Component, OnInit } from '@angular/core';
 export class HomeComponent implements OnInit {
   posts: unknown[];
   dataloaded: boolean = false
-  constructor(private postService: PostService) { }
+  works: { id: string; data: unknown; }[];
+  constructor(private postService: PostService, private db: AngularFirestore) { }
 
   ngOnInit(): void {
     this.postService.latestPosts().subscribe(e => {
@@ -19,6 +21,15 @@ export class HomeComponent implements OnInit {
           data: post.payload.doc.data()
         })
 
+      })
+
+    })
+    this.db.collection('completed-projects').snapshotChanges().subscribe(e => {
+      this.works = e.map(data => {
+        return ({
+          id: data.payload.doc.id,
+          data: data.payload.doc.data()
+        })
       })
       this.dataloaded = true;
     })

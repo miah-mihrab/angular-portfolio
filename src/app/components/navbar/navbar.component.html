@@ -19,7 +19,7 @@
         </li>
         <ng-container *ngIf="!user">
           <li class="nav-item active">
-            <a class="nav-link rounded-pill" data-toggle="modal" data-target="#exampleModalCenter">Follow Me!</a>
+            <a class="nav-link rounded-pill" data-toggle="modal" data-target="#authModal">Follow Me!</a>
 
           </li>
         </ng-container>
@@ -34,18 +34,19 @@
         </ng-container>
       </ul>
     </div>
+
   </nav>
 </div>
 
-
+<div id="hello"></div>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+<div class="modal fade" id="authModal" tabindex="-1" role="dialog" aria-labelledby="authModalCenterTitle"
   aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Please provide your informatin</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle">Please provide your information</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -58,13 +59,26 @@
               <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
                 placeholder="Enter email" formControlName="email">
               <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+              <div
+                *ngIf="followerForm.get('email').invalid && (followerForm.get('email').dirty || followerForm.get('email').touched)"
+                class="alert alert-danger">
+                <div *ngIf="followerForm.get('email').errors.required"> * Email is required.</div>
+                <div *ngIf="followerForm.get('email').errors.email">* Should be valid email </div>
+              </div>
             </div>
-            <div class="form-group">
+            <div class=" form-group">
               <label for="name">Username</label>
               <input type="text" class="form-control" placeholder="Username" formControlName="name">
+              <div
+                *ngIf="followerForm.get('name').invalid && (followerForm.get('name').dirty || followerForm.get('name').touched)"
+                class="alert alert-danger">
+                <div *ngIf="followerForm.get('name').errors.required"> * Name is required.</div>
+                <div *ngIf="followerForm.get('name').errors.pattern">* Should not contain special character or number
+                </div>
+              </div>
             </div>
-            <button type="submit" class="btn btn-primary">Follow</button>
-            <p (click)="setFollower()">Already a follower? <a>SignIn</a></p>
+            <button type="submit" class="btn btn-primary" [disabled]="followerForm.invalid">Follow</button>
+            <p (click)=" setFollower()">Already a follower? <a>SignIn</a></p>
           </form>
         </ng-container>
         <ng-container *ngIf="follower">

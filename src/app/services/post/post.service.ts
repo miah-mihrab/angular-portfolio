@@ -51,7 +51,25 @@ export class PostService {
       console.log(err)
     })
   }
-  updatePost() { }
+  updatePost(formValue, fileRef, id, imgUrl) {
+    this.aFStorage.storage.refFromURL(imgUrl).delete().then(() => {
+      console.log("Image Deleted")
+      fileRef.getDownloadURL().subscribe(url => {
+        console.log(formValue, url)
+        this.db.collection('/blog-posts').doc(id).set({
+          title: formValue.title,
+          tags: formValue.tags,
+          brief: formValue.brief,
+          details: formValue.details,
+          imgUrl: url
+        })
+      })
+      alert("Post Updated")
+    }).catch(() => {
+      alert("Something went wrong")
+    })
+
+  }
   deletePost(id, imgUrl) {
     this.aFStorage.storage.refFromURL(imgUrl).delete().then(() => {
       this.db.collection('blog-posts').doc(id).delete();

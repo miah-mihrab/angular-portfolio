@@ -68,54 +68,16 @@
 
   <div class="works-section" id="works">
     <div class="row">
-      <div class="work work1 col-lg-2">
-        <div class="content">
-          <h4 class="text-center">Work One</h4>
-          <button class="btn btn-outline-danger">Visit</button>
+      <ng-container *ngFor="let work of works">
+        <div class="card mr-2" style="width: 20rem; height: 22rem;">
+          <img class="card-img-top" [src]="work.data.thumbnail" style="height: 60%;">
+          <div class="card-body">
+            <h5 class="card-title">{{ work.data.title }}</h5>
+            <p class="card-text">{{ work.data.about }}</p>
+            <a class="btn btn-outline-danger" target="_blank" [href]="work.data.live_link">Go There</a>
+          </div>
         </div>
-      </div>
-      <div class="work work2 col-lg-2">
-        <div class="content">
-          <h4 class="text-center">Work One</h4>
-          <button class="btn btn-outline-danger">Visit</button>
-        </div>
-      </div>
-      <div class="work work3 col-lg-2">
-        <div class="content">
-          <h4 class="text-center">Work One</h4>
-          <button class="btn btn-outline-danger">Visit</button>
-        </div>
-      </div>
-      <div class="work work4 col-lg-2">
-        <div class="content">
-          <h4 class="text-center">Work One</h4>
-          <button class="btn btn-outline-danger">Visit</button>
-        </div>
-      </div>
-      <div class="work work5 col-lg-2">
-        <div class="content">
-          <h4 class="text-center">Work One</h4>
-          <button class="btn btn-outline-danger">Visit</button>
-        </div>
-      </div>
-      <div class="work work6 col-lg-2">
-        <div class="content">
-          <h4 class="text-center">Work One</h4>
-          <button class="btn btn-outline-danger">Visit</button>
-        </div>
-      </div>
-      <div class="work work7 col-lg-2">
-        <div class="content">
-          <h4 class="text-center">Work One</h4>
-          <button class="btn btn-outline-danger">Visit</button>
-        </div>
-      </div>
-      <div class="work work8 col-lg-2">
-        <div class="content">
-          <h4 class="text-center">Work One</h4>
-          <button class="btn btn-outline-danger">Visit</button>
-        </div>
-      </div>
+      </ng-container>
     </div>
   </div>
 
@@ -126,14 +88,14 @@
 
   <div class="works-section" id="blog">
     <div class="row">
-
       <ng-container *ngFor="let post of posts">
-        <div class="card mr-2" style="width: 18rem; height: 20rem;">
+        <div class="card mr-2" style="width: 20rem; height: 22rem;">
           <img class="card-img-top" [src]="post.data.imgUrl" style="height: 60%;">
           <div class="card-body">
             <h5 class="card-title">{{ post.data.title }}</h5>
             <p class="card-text">{{ post.data.brief }}</p>
-            <button class="btn btn-outline-danger" [routerLink]="['/blog/post', post.id]">Visit</button>
+            <button class="btn btn-outline-danger" [routerLink]="['/blog/post', post.id]"
+              style="bottom: 0;">Visit</button>
           </div>
         </div>
       </ng-container>

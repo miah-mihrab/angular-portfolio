@@ -1,0 +1,82 @@
+<div class="container mt-5">
+    <ng-container *ngIf='editPostForm'>
+        <form class="form-horizontal" [formGroup]="editPostForm">
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="title">Title:</label>
+                <div class="col-12">
+                    <input type="text" class="form-control" id="title" placeholder="Enter Ttile"
+                        formControlName="title" />
+                    <div *ngIf="editPostForm.get('title').invalid && (editPostForm.get('title').dirty || editPostForm.get('title').touched)"
+                        class="alert alert-danger">
+                        <div *ngIf="editPostForm.get('title').errors.required"> * Title is required.</div>
+                        <div *ngIf="editPostForm.get('title').errors.minlength"> * Minimum length is 5.</div>
+                        <div *ngIf="editPostForm.get('title').errors.maxlength"> * Maximum length is 30.</div>
+                        <div *ngIf="editPostForm.get('title').errors.pattern">* Should not contain any special
+                            character
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="tags">Tags:</label>
+                <div class="col-12">
+                    <input type="text" class="form-control" id="tags" placeholder="web design, html, css"
+                        formControlName="tags" />
+                    <div *ngIf="editPostForm.get('tags').invalid && (editPostForm.get('tags').dirty || editPostForm.get('tags').touched)"
+                        class="alert alert-danger">
+                        <div *ngIf="editPostForm.get('tags').errors.required"> * Tag is required.</div>
+                        <div *ngIf="editPostForm.get('tags').errors.minlength"> * Minimum length is 3.</div>
+                        <div *ngIf="editPostForm.get('tags').errors.maxlength"> * Maximum length is 30.</div>
+                        <div *ngIf="editPostForm.get('tags').errors.pattern">* Should not any special character
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="brief">Short brief:</label>
+                <div class="col-12">
+                    <textarea type="text" class="form-control" id="brief" placeholder="Write Short Description" id=""
+                        cols="30" rows="2" formControlName="brief"></textarea>
+                    <div *ngIf="editPostForm.get('brief').invalid && (editPostForm.get('brief').dirty || editPostForm.get('brief').touched)"
+                        class="alert alert-danger">
+                        <div *ngIf="editPostForm.get('brief').errors.required"> * Brief is required.</div>
+                        <div *ngIf="editPostForm.get('brief').errors.minlength">* Minimum length is 15 </div>
+                        <div *ngIf="editPostForm.get('brief').errors.maxlength">* Maximum length is 50 </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="details">Details</label>
+                <div class="col-12">
+                    <textarea type="text" class="form-control" id="details" placeholder="Details" id="" cols="30"
+                        rows="5" formControlName="details" required minlength=50></textarea>
+                    <div *ngIf="editPostForm.get('details').invalid && (editPostForm.get('details').dirty || editPostForm.get('details').touched)"
+                        class="alert alert-danger">
+                        <div *ngIf="editPostForm.get('details').errors.required"> * Details is required.</div>
+                        <div *ngIf="editPostForm.get('details').errors.minlength">* Minimum length is 100 </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-12">
+                    <input type="file" (change)="uploadThumbnail($event)" accept="image/*" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-12">
+                    <button type="submit" class="btn btn-primary" (click)="post()"
+                        [disabled]="editPostForm.invalid">Post</button>
+                </div>
+            </div>
+
+        </form>
+    </ng-container>
+</div>

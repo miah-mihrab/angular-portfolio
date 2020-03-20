@@ -14,7 +14,6 @@
       <form [formGroup]="addCompletedProjectForm" (submit)="onSubmit()">
         <div class="form__section col-12">
           <fieldset class="form__fieldset form__fieldset--shadow">
-
             <legend class="form__legend">
               Completed Project
             </legend>
@@ -22,31 +21,55 @@
             <div class="form__group">
               <label for="form-username" class="form__label">Project Title</label>
               <input type="text" class="form__field" id="form-username" name="title" formControlName="title">
+              <div
+                *ngIf="addCompletedProjectForm.get('title').invalid && (addCompletedProjectForm.get('title').dirty || addCompletedProjectForm.get('title').touched)"
+                class="alert alert-danger">
+                <div *ngIf="addCompletedProjectForm.get('title').errors.required"> * Title is required.</div>
+                <div *ngIf="addCompletedProjectForm.get('title').errors.maxlength"> * Maxlength is 30.</div>
+                <div *ngIf="addCompletedProjectForm.get('title').errors.minlength">* Minimum length is 5.</div>
+                <div *ngIf="addCompletedProjectForm.get('title').errors.pattern">* Should not contain any special
+                  character.
+                </div>
+              </div>
             </div>
 
             <div class="form__group">
               <label for="form-password" class="form__label">About Project</label>
               <textarea name="brief" id="" rows="3" class="form__field" placeholder="About Project"
                 formControlName="about"></textarea>
+              <div
+                *ngIf="addCompletedProjectForm.get('about').invalid && (addCompletedProjectForm.get('about').dirty || addCompletedProjectForm.get('about').touched)"
+                class="alert alert-danger">
+                <div *ngIf="addCompletedProjectForm.get('about').errors.required"> * About is required.</div>
+                <div *ngIf="addCompletedProjectForm.get('about').errors.minlength">* Minimum length is 20
+                </div>
+                <div *ngIf="addCompletedProjectForm.get('about').errors.maxlength">* Maxlength is 100
+                </div>
+              </div>
             </div>
 
             <div class="form__group">
               <label for="form-username" class="form__label">Live Link</label>
               <input type="text" class="form__field" name="live_link" formControlName="live_link">
+              <div
+                *ngIf="addCompletedProjectForm.get('live_link').invalid && (addCompletedProjectForm.get('live_link').dirty || addCompletedProjectForm.get('live_link').touched)"
+                class="alert alert-danger">
+                <div *ngIf="addCompletedProjectForm.get('live_link').errors.required"> * Live link is required.</div>
+                <div *ngIf="addCompletedProjectForm.get('live_link').errors.pattern">* Should be a valid url
+                  (https://www.example.com)
+                </div>
+              </div>
             </div>
 
             <div class="form__group">
               <div class="input-group mb-3">
-                <input type="file" (change)="uploadThumbnail($event)">
+                <input type="file" (change)="uploadThumbnail($event)" required>
               </div>
             </div>
           </fieldset>
-
         </div>
-
-
         <div class="form__button-group">
-          <button class="button button--shadow button--primary" (click)="onSubmit()">
+          <button class="button button--shadow button--primary" [disabled]="addCompletedProjectForm.invalid">
             Add Project
           </button>
         </div>
@@ -69,25 +92,22 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-body">
-        <form class="form-horizontal" [formGroup]="postForm">
 
+        <form class="form-horizontal" [formGroup]="postForm">
           <div class="form-group">
             <label class="control-label col-sm-2" for="title">Title:</label>
             <div class="col-12">
-              <input type="text" class="form-control" id="title" placeholder="Enter Ttile" formControlName="title"
-                pattern="[a-zA-Z ]*" />
-              <!-- <div
+              <input type="text" class="form-control" id="title" placeholder="Enter Ttile" formControlName="title" />
+              <div
                 *ngIf="postForm.get('title').invalid && (postForm.get('title').dirty || postForm.get('title').touched)"
                 class="alert alert-danger">
                 <div *ngIf="postForm.get('title').errors.required"> * Title is required.</div>
-                <div *ngIf=" postForm.get('title').errors.minlength || postForm.get('title').errors.maxlength">
-                  *
-                  Minimum length 5 &
-                  Maximum length 30
+                <div *ngIf="postForm.get('title').errors.minlength"> * Minimum length is 5.</div>
+                <div *ngIf="postForm.get('title').errors.maxlength"> * Maximum length is 30.</div>
+                <div *ngIf="addCompletedProjectForm.get('title').errors.pattern">* Should not contain any special
+                  character
                 </div>
-                <div *ngIf="postForm.get('title').errors.pattern">* Should not any special character or number
-                </div>
-              </div> -->
+              </div>
             </div>
           </div>
 
@@ -95,18 +115,15 @@
             <label class="control-label col-sm-2" for="tags">Tags:</label>
             <div class="col-12">
               <input type="text" class="form-control" id="tags" placeholder="web design, html, css"
-                formControlName="tags" pattern="[a-zA-Z, ]*" />
-              <!-- <div *ngIf="postForm.get('tags').invalid && (postForm.get('tags').dirty || postForm.get('tags').touched)"
+                formControlName="tags" />
+              <div *ngIf="postForm.get('tags').invalid && (postForm.get('tags').dirty || postForm.get('tags').touched)"
                 class="alert alert-danger">
                 <div *ngIf="postForm.get('tags').errors.required"> * Tag is required.</div>
-                <div *ngIf=" postForm.get('tags').errors.minlength || postForm.get('tags').errors.maxlength">
-                  *
-                  Minimum length 5 &
-                  Maximum length 30
+                <div *ngIf="postForm.get('tags').errors.minlength"> * Minimum length is 3.</div>
+                <div *ngIf="postForm.get('tags').errors.maxlength"> * Maximum length is 30.</div>
+                <div *ngIf="postForm.get('tags').errors.pattern">* Should not any special character
                 </div>
-                <div *ngIf="postForm.get('tags').errors.pattern">* Should not any special character or number
-                </div>
-              </div> -->
+              </div>
             </div>
           </div>
 
@@ -116,16 +133,13 @@
             <div class="col-12">
               <textarea type="text" class="form-control" id="brief" placeholder="Write Short Description" id=""
                 cols="30" rows="2" formControlName="brief"></textarea>
-              <!-- <div
+              <div
                 *ngIf="postForm.get('brief').invalid && (postForm.get('brief').dirty || postForm.get('brief').touched)"
                 class="alert alert-danger">
-                <div *ngIf="postForm.get('brief').errors.required">
-                  * Brief is required.
-                </div>
-                <div *ngIf="postForm.get('brief').errors.minlength || postForm.get('brief').errors.maxlength">
-                  * Minimum length 50 & Maximum length 100
-                </div>
-              </div> -->
+                <div *ngIf="postForm.get('brief').errors.required"> * Brief is required.</div>
+                <div *ngIf="postForm.get('brief').errors.minlength">* Minimum length is 15 </div>
+                <div *ngIf="postForm.get('brief').errors.maxlength">* Maximum length is 50 </div>
+              </div>
             </div>
           </div>
 
@@ -134,17 +148,12 @@
             <div class="col-12">
               <textarea type="text" class="form-control" id="details" placeholder="Details" id="" cols="30" rows="5"
                 formControlName="details" required minlength=50></textarea>
-
-              <!-- <div
+              <div
                 *ngIf="postForm.get('details').invalid && (postForm.get('details').dirty || postForm.get('details').touched)"
                 class="alert alert-danger">
-                <div *ngIf="postForm.get('details').errors.required">
-                  * Details is required.
-                </div>
-                <div *ngIf="postForm.get('details').errors.minlength || postForm.get('details').errors.maxlength">
-                  * Minimum length 100
-                </div>
-              </div> -->
+                <div *ngIf="postForm.get('details').errors.required"> * Details is required.</div>
+                <div *ngIf="postForm.get('details').errors.minlength">* Minimum length is 100 </div>
+              </div>
             </div>
           </div>
 
@@ -159,7 +168,7 @@
           <div class="form-group">
             <div class="col-sm-offset-2 col-12">
               <!-- [disabled]="postForm.invalid" -->
-              <button type="submit" class="btn btn-primary" (click)="post()">Post</button>
+              <button type="submit" class="btn btn-primary" (click)="post()" [disabled]="postForm.invalid">Post</button>
             </div>
           </div>
 

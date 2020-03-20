@@ -18,7 +18,8 @@ export class NavbarComponent implements OnInit {
       Validators.email
     ]),
     name: new FormControl('', [
-      Validators.required
+      Validators.required,
+      Validators.pattern('[a-zA-Z ]+')
     ])
   });
 
@@ -91,12 +92,14 @@ export class NavbarComponent implements OnInit {
 
   signIn() {
     console.log(this.signInFollower.value)
-    this.aFAuth.auth.signInWithEmailAndPassword(this.signInFollower.value.email, '123456').then(() => {
-      console.log("Success")
-      this.router.navigate(['/blog'])
-    }).catch(err => {
-      alert("Something went wrong")
-    })
+    this.aFAuth.auth.signInWithEmailAndPassword(this.signInFollower.value.email, '123456')
+      .then((res) => {
+        localStorage.setItem("user", JSON.stringify({ userId: res.user.uid, admin: false }))
+        // this.router.navigate(['/blog'])
+      })
+      .catch(err => {
+        alert("Something went wrong")
+      })
   }
   signout() {
     this.aFAuth.auth.signOut();
