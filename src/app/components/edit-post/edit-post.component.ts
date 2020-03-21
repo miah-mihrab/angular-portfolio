@@ -19,6 +19,7 @@ export class EditPostComponent implements OnInit {
   editPostForm: FormGroup;
   id: any;
   imgUrl;
+  createdtime: any;
   constructor(private db: AngularFirestore, private route: ActivatedRoute, private postService: PostService, private aFireStorage: AngularFireStorage) {
 
     this.route.params.subscribe(param => {
@@ -48,6 +49,7 @@ export class EditPostComponent implements OnInit {
           ])
         })
         this.imgUrl = e['imgUrl']
+        this.createdtime = e['createdtime']
       })
     })
 
@@ -55,18 +57,36 @@ export class EditPostComponent implements OnInit {
 
   ngOnInit(): void { }
   uploadThumbnail(event) {
-    this.file = event.target.files[0];
-    const filePath = `/files/${Date.now()}_${this.file.name}`;
-    this.fileRef = this.aFireStorage.ref(filePath);
+    if (event.target.files[0]) {
+      this.file = event.target.files[0];
+      const filePath = `/files/${Date.now()}_${this.file.name}`;
+      this.fileRef = this.aFireStorage.ref(filePath);
+    }
   }
   post() {
-    const task = this.fileRef.put(this.file);
+    this.editPostForm.value.createdtime = this.createdtime
     let formValue = this.editPostForm.value;
-    task.snapshotChanges().pipe(
-      finalize(() => {
-        this.postService.updatePost(formValue, this.fileRef, this.id, this.imgUrl)
+    if (this.file) {
+      const task = this.fileRef.put(this.file);
+      task.snapshotChanges().pipe(
+        finalize(() => {
+          this.postService.updatePost(formValue, this.fileRef, this.id, this.imgUrl)
 
+        })
+      ).subscribe()
+    } else {
+      this.db.collection('/blog-posts').doc(this.id).set({
+        title: formValue.title,
+        tags: formValue.tags,
+        brief: formValue.brief,
+        post: formValue.details,
+        imgUrl: this.imgUrl,
+        createdtime: formValue.createdtime
+      }).then(() => {
+
+        alert("Post updated")
       })
-    ).subscribe()
+    }
+
   }
 }

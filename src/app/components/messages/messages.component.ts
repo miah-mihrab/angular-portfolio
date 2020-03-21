@@ -40,14 +40,11 @@ export class MessagesComponent implements OnInit {
     div.display = (div.display === 'none') ? 'block' : 'none'
     this.db.collection('messages').doc(id).valueChanges().subscribe(e => {
       this.messages = e['allMessage'];
-      console.log(e)
     })
 
   }
 
   sendMessage(userId) {
-    console.log(userId)
-    console.log(this.messageForm.value)
     this.db.collection('messages').doc(userId).get().subscribe(message => {
       this.allMessage = message.data()['allMessage'];
       this.allMessage.push(this.messageForm.value.message);

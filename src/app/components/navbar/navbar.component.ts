@@ -47,7 +47,6 @@ export class NavbarComponent implements OnInit {
         this.db.collection('admin').doc(state.uid).get().subscribe(e => {
           if (e.data() === undefined) {
             this.user = true;
-            console.log(this.user)
             this.db.collection('messages').doc(state.uid).valueChanges().subscribe(msg => {
               this.messages = msg['allMessage'];
             })
@@ -58,7 +57,6 @@ export class NavbarComponent implements OnInit {
   }
   onSubmit() {
     this.aFAuth.auth.createUserWithEmailAndPassword(this.followerForm.value.email, "123456").then((res) => {
-      console.log(res);
       this.db.collection('followers').doc(res.user.uid).set({
         name: this.followerForm.value.name
       })
@@ -91,11 +89,9 @@ export class NavbarComponent implements OnInit {
   }
 
   signIn() {
-    console.log(this.signInFollower.value)
     this.aFAuth.auth.signInWithEmailAndPassword(this.signInFollower.value.email, '123456')
       .then((res) => {
         localStorage.setItem("user", JSON.stringify({ userId: res.user.uid, admin: false }))
-        // this.router.navigate(['/blog'])
       })
       .catch(err => {
         alert("Something went wrong")

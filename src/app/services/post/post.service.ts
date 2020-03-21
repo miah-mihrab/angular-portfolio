@@ -47,21 +47,22 @@ export class PostService {
     return this.db.collection('blog-posts').doc(id).collection('comments', ref => ref.orderBy('time', 'asc')).valueChanges();
   }
   postComment(id, formValue) {
-    this.db.collection('blog-posts').doc(id).collection('comments').add(formValue).catch(err => {
-      console.log(err)
-    })
+    this.db.collection('blog-posts').doc(id).collection('comments')
+      .add(formValue)
+      .catch(err => {
+        alert("Something went wrong")
+      })
   }
   updatePost(formValue, fileRef, id, imgUrl) {
     this.aFStorage.storage.refFromURL(imgUrl).delete().then(() => {
-      console.log("Image Deleted")
       fileRef.getDownloadURL().subscribe(url => {
-        console.log(formValue, url)
         this.db.collection('/blog-posts').doc(id).set({
           title: formValue.title,
           tags: formValue.tags,
           brief: formValue.brief,
-          details: formValue.details,
-          imgUrl: url
+          post: formValue.details,
+          imgUrl: url,
+          createdtime: formValue.createdtime
         })
       })
       alert("Post Updated")
