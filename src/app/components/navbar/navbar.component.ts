@@ -89,16 +89,10 @@ export class NavbarComponent implements OnInit {
   }
 
   signIn() {
-    this.aFAuth.auth.signInWithEmailAndPassword(this.signInFollower.value.email, '123456')
-      .then((res) => {
-        localStorage.setItem("user", JSON.stringify({ userId: res.user.uid, admin: false }))
-      })
-      .catch(err => {
-        alert("Something went wrong")
-      })
+    this.authService.signIn(this.signInFollower.value.email);
   }
   signout() {
-    this.aFAuth.auth.signOut();
+    this.authService.signOut();
     this.user = false;
   }
 }

@@ -39,4 +39,21 @@ export class BlogComponent implements OnInit {
     }
 
   }
+
+  filterByCategory(event) {
+    let query = event.target.text.toLowerCase();
+    let filteredPosts = []
+    if (query != 'all') {
+      for (let i = 0; i < this.resevedPosts.length; i++) {
+        if (this.resevedPosts[i].data.tags.toLowerCase().includes(query)) {
+          filteredPosts.push(this.resevedPosts[i])
+        }
+      }
+      if (filteredPosts.length > 0) {
+        this.posts = filteredPosts
+      }
+    } else {
+      this.posts = this.resevedPosts;
+    }
+  }
 }

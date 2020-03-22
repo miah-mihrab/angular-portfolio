@@ -55,24 +55,19 @@ export class DashboardComponent implements OnInit {
   downloadUrl: Observable<String>;
   fileRef: AngularFireStorageReference;
   dataloaded: boolean = false;
-  constructor(private appService: AppService, private aFireStorage: AngularFireStorage, private router: Router, private postService: PostService, private aFAuth: AngularFireAuth, private db: AngularFirestore) { }
+  constructor(private aFireStorage: AngularFireStorage, private postService: PostService, private aFAuth: AngularFireAuth) { }
 
   ngOnInit(): void {
-    let user = JSON.parse(localStorage.getItem('user'));
-    if (!user.admin) {
-      alert("Your are not authorized to access this route")
-      this.router.navigate(['/'])
-    } else {
-      this.postService.getAllPost().subscribe(e => {
-        this.posts = e.map(data => {
-          return ({
-            id: data.payload.doc.id,
-            data: data.payload.doc.data()
-          })
+    this.postService.getAllPost().subscribe(e => {
+      this.posts = e.map(data => {
+        return ({
+          id: data.payload.doc.id,
+          data: data.payload.doc.data()
         })
       })
-      this.dataloaded = true;
-    }
+    })
+    this.dataloaded = true;
+
 
   }
 
@@ -92,7 +87,7 @@ export class DashboardComponent implements OnInit {
 
   }
 
-  edit(id) { }
+  edit() { }
   remove(id, imgUrl) {
     this.postService.deletePost(id, imgUrl)
   }

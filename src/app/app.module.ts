@@ -1,3 +1,4 @@
+import { AuthGuard } from './guard/auth.guard';
 import { PostService } from 'src/app/services/post/post.service';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { RouterModule } from '@angular/router';
@@ -46,7 +47,7 @@ import { EditPostComponent } from './components/edit-post/edit-post.component';
     AngularFireAuthModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent },
-      { path: 'dashboard', component: DashboardComponent },
+      { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
       { path: 'blog', component: BlogComponent },
       { path: 'blog/post/:id', component: PostComponent },
       { path: 'edit/post/:id', component: EditPostComponent },
