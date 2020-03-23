@@ -89,6 +89,7 @@ export class ActionBarComponent implements OnInit {
     task.snapshotChanges().pipe(
       finalize(() => {
         this.postService.createPost(this.fileRef, formValue);
+        alert('Post Created');
       })
     ).subscribe()
   }

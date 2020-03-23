@@ -41,6 +41,9 @@ export class MessagesComponent implements OnInit {
     this.db.collection('messages').doc(id).valueChanges().subscribe(e => {
       this.messages = e['allMessage'];
     })
+    this.db.collection('messages').doc(id).update({
+      new_messages: []
+    })
 
   }
 

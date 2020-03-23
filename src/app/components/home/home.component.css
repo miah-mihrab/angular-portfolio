@@ -128,3 +128,19 @@
   font-weight: bolder;
   font-size: 1.3rem;
 }
+
+.modal-content {
+  background-color: #000;
+}
+
+.w3-sidebar {
+  height: 80vh;
+}
+
+@media (min-width: 576px) {
+  .modal-dialog {
+    max-width: 100%;
+    margin: 1.75rem auto;
+    margin-left: 14px;
+  }
+}
