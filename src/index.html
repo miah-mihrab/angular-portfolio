@@ -11,10 +11,29 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
 </head>
 
-<body class="mat-typography">
+<body>
   <app-root></app-root>
 
+  <a id="go_top" style="
+      position: fixed; display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      width: 60px; height: 60px;
+      right: 25px; bottom: 25px; border-radius: 50%;
+      border: 1px solid #dddddd; opacity: 0; transition: 0.5s ease-in-out all;" href="#">
+    <i class="fas fa-arrow-up" style="font-size: 2rem;"></i>
+  </a>
 
+
+  <script>
+    window.addEventListener('scroll', (e) => {
+      if (window.scrollY >= 200) {
+        document.getElementById('go_top').style.opacity = 1
+      } else {
+        document.getElementById('go_top').style.opacity = 0
+      }
+    })
+
+  </script>
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
     integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
   </script>

@@ -50,7 +50,7 @@ export class MessagesComponent implements OnInit {
   sendMessage(userId) {
     this.db.collection('messages').doc(userId).get().subscribe(message => {
       this.allMessage = message.data()['allMessage'];
-      this.allMessage.push(this.messageForm.value.message);
+      this.allMessage.push(`Reply: ${this.messageForm.value.message}`);
       this.db.collection('messages').doc(userId).set({
         allMessage: this.allMessage
       }, { merge: true })

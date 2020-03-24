@@ -23,7 +23,6 @@ export class AuthService {
       .then((res) => {
         this.db.collection('/admin').doc(res.user.uid).get().subscribe(e => {
           if (e.data() != undefined) {
-            console.log(e.data())
             this.admin = true
           } else {
             this.admin = false;

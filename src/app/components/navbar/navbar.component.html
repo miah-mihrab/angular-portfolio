@@ -1,4 +1,4 @@
-<div class="container">
+<div class="pl-5 pr-5 ">
   <nav class="navbar navbar-expand-lg navbar-light p-5">
     <a class="navbar-brand" href="#">Portfolio</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -23,13 +23,13 @@
 
           </li>
         </ng-container>
-        <li class="nav-item active">
-          <a class="nav-link rounded-pill" href="#" data-toggle="modal" data-target="#contact-me">Message
-            Me!</a>
-        </li>
         <ng-container *ngIf="user">
           <li class="nav-item active">
             <a class="nav-link rounded-pill" (click)="signout()">Bye</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link rounded-pill" href="#" data-toggle="modal" data-target="#contact-me">Message
+              Me!</a>
           </li>
         </ng-container>
       </ul>

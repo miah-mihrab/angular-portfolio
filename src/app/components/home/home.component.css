@@ -3,6 +3,15 @@
 
 }
 
+.developer .content .dev-image {
+  overflow: hidden;
+}
+
+.developer .content .dev-image img {
+  width: 100%;
+  margin-left: 20%;
+}
+
 .dev-info {
   display: flex;
   flex-direction: column;
@@ -29,12 +38,12 @@
   margin-bottom: 100px;
 }
 
-.services .row,
-.works-section .row {
+.service-container .row,
+.work__container .row,
+.blog__post-container .row {
   display: flex;
-  justify-content: center;
   align-items: center;
-  width: 100%;
+  justify-content: center;
 }
 
 .services .row .card {
@@ -43,7 +52,7 @@
 
 .service-heading,
 .works-heading {
-  font-size: 2.3rem;
+  font-size: 2rem;
   position: relative;
 }
 
@@ -53,9 +62,8 @@
   position: absolute;
   content: "";
   width: 100px;
-  height: 5px;
+  height: 3px;
   background-color: black;
-  /* bottom: 40px; */
   top: 75%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -70,45 +78,12 @@
 }
 
 .work {
-  /* background-image: url('https://cssslider.com/webdesign/data/upload/2017/10/mobirise4-blocks.png'); */
   background-position: center;
   background-size: cover;
   height: 300px;
   margin-left: 50px;
   margin-bottom: 50px;
   position: relative;
-}
-
-.work1 {
-  background-image: url('https://cssslider.com/webdesign/data/upload/2017/10/mobirise4-blocks.png');
-}
-
-.work2 {
-  background-image: url('https://cdn6.aptoide.com/imgs/4/b/d/4bd4a1ccae60e015abaa223288afb7b9_screen.png?h=464')
-}
-
-.work3 {
-  background-image: url('https://99designs-start-attachments.imgix.net/alchemy-pictures/2016%2F01%2F29%2F06%2F52%2F16%2F2574220d-7737-4c39-a562-8e153a5d1497%2Fwebsite-hero3.png?auto=format&ch=Width%2CDPR&fm=png&w=824&h=457')
-}
-
-.work4 {
-  background-image: url('https://static.wixstatic.com/media/311dce_ac7e2c0b3e8f436abcaade213fcf4d29~mv2.png/v1/fill/w_1009,h_549,al_c,q_90,usm_0.66_1.00_0.01/dasktop.webp')
-}
-
-.work5 {
-  background-image: url('https://colorlib.com/wp/wp-content/uploads/sites/2/angular-landing-page-template.jpg')
-}
-
-.work6 {
-  background-image: url('https://colorlib.com/wp/wp-content/uploads/sites/2/dexam-angularjs-website-template.jpg')
-}
-
-.work7 {
-  background-image: url('https://cdn.dribbble.com/users/2434511/screenshots/5436828/photographer-landing-page.jpg')
-}
-
-.work8 {
-  background-image: url('https://dmpqsifgr4vyp.cloudfront.net/template/comingsoon9/comingsoon9.jpeg')
 }
 
 .work .content {
@@ -129,18 +104,98 @@
   font-size: 1.3rem;
 }
 
-.modal-content {
-  background-color: #000;
+
+.modal-content,
+.modal-header {
+  background-color: #000000;
 }
 
 .w3-sidebar {
   height: 80vh;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Montserrat", sans-serif
+}
+
+.w3-row-padding img {
+  margin-bottom: 12px
+}
+
+.w3-sidebar {
+  width: 120px;
+  background: #222;
+}
+
+#main {
+  margin-left: 120px
+}
+
+@media only screen and (max-width: 600px) {
+  #main {
+    margin-left: 0
+  }
+}
+
 @media (min-width: 576px) {
   .modal-dialog {
     max-width: 100%;
     margin: 1.75rem auto;
-    margin-left: 14px;
+  }
+}
+
+@media only screen and (max-width: 1550px) {
+  .col-lg-4 {
+    height: 27rem;
+  }
+
+  .text-muted {
+    font-size: 0.8vw;
+  }
+}
+
+@media only screen and (max-width: 1300px) {
+  .text-muted {
+    font-size: 1vw;
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  .text-muted {
+    font-size: 1.2vw;
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  .text-muted {
+    font-size: 1.5vw;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .text-muted {
+    font-size: 1.7vw;
+  }
+
+  .btn {
+    padding: 0.1rem 0.30rem
+  }
+}
+
+@media only screen and (max-width: 550px) {
+
+  .text-muted {
+    font-size: 2.2vw;
+  }
+}
+
+@media only screen and (max-width: 325px) {
+  .text-muted {
+    font-size: 2.5vw;
   }
 }

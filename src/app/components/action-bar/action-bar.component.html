@@ -6,76 +6,10 @@
   </div>
   <div class="col-12">
     <button style="border: none; background-color: transparent; outline: none;" class=" mb-3 btn-sm text-white"
-      type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false"
+      type="button" data-toggle="modal" data-target="#add__project-modal" aria-expanded="false"
       aria-controls="collapseExample">
       <i class="fas fa-arrow-circle-right"></i> Add completed Project
     </button>
-    <div class="collapse" id="collapseExample">
-      <form [formGroup]="addCompletedProjectForm" (submit)="onSubmit()">
-        <div class="form__section col-12">
-          <fieldset class="form__fieldset form__fieldset--shadow">
-            <legend class="form__legend">
-              Completed Project
-            </legend>
-
-            <div class="form__group">
-              <label for="form-username" class="form__label">Project Title</label>
-              <input type="text" class="form__field" id="form-username" name="title" formControlName="title">
-              <div
-                *ngIf="addCompletedProjectForm.get('title').invalid && (addCompletedProjectForm.get('title').dirty || addCompletedProjectForm.get('title').touched)"
-                class="alert alert-danger">
-                <div *ngIf="addCompletedProjectForm.get('title').errors.required"> * Title is required.</div>
-                <div *ngIf="addCompletedProjectForm.get('title').errors.maxlength"> * Maxlength is 30.</div>
-                <div *ngIf="addCompletedProjectForm.get('title').errors.minlength">* Minimum length is 5.</div>
-                <div *ngIf="addCompletedProjectForm.get('title').errors.pattern">* Should not contain any special
-                  character.
-                </div>
-              </div>
-            </div>
-
-            <div class="form__group">
-              <label for="form-password" class="form__label">About Project</label>
-              <textarea name="brief" id="" rows="3" class="form__field" placeholder="About Project"
-                formControlName="about"></textarea>
-              <div
-                *ngIf="addCompletedProjectForm.get('about').invalid && (addCompletedProjectForm.get('about').dirty || addCompletedProjectForm.get('about').touched)"
-                class="alert alert-danger">
-                <div *ngIf="addCompletedProjectForm.get('about').errors.required"> * About is required.</div>
-                <div *ngIf="addCompletedProjectForm.get('about').errors.minlength">* Minimum length is 20
-                </div>
-                <div *ngIf="addCompletedProjectForm.get('about').errors.maxlength">* Maxlength is 100
-                </div>
-              </div>
-            </div>
-
-            <div class="form__group">
-              <label for="form-username" class="form__label">Live Link</label>
-              <input type="text" class="form__field" name="live_link" formControlName="live_link">
-              <div
-                *ngIf="addCompletedProjectForm.get('live_link').invalid && (addCompletedProjectForm.get('live_link').dirty || addCompletedProjectForm.get('live_link').touched)"
-                class="alert alert-danger">
-                <div *ngIf="addCompletedProjectForm.get('live_link').errors.required"> * Live link is required.</div>
-                <div *ngIf="addCompletedProjectForm.get('live_link').errors.pattern">* Should be a valid url
-                  (https://www.example.com)
-                </div>
-              </div>
-            </div>
-
-            <div class="form__group">
-              <div class="input-group mb-3">
-                <input type="file" (change)="uploadThumbnail($event)" required>
-              </div>
-            </div>
-          </fieldset>
-        </div>
-        <div class="form__button-group">
-          <button class="button button--shadow button--primary" [disabled]="addCompletedProjectForm.invalid">
-            Add Project
-          </button>
-        </div>
-
-      </form>
-    </div>
   </div>
   <div class="col-12">
     <button style="border: none; background-color: transparent; outline: none;" class=" mb-3 btn-sm text-white"
@@ -86,13 +20,97 @@
 
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+
+<!-- Add Project Modal -->
+<div class="modal fade" id="add__project-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-body">
 
+        <form [formGroup]="addCompletedProjectForm" (submit)="onSubmit()">
+          <div class="form__section col-12">
+            <fieldset class="form__fieldset form__fieldset--shadow">
+              <legend class="form__legend">
+                <h4 class="text-lead pl-2">Completed Project</h4>
+              </legend>
+
+              <div class="form__group">
+                <label for="form-username" class="form__label">Project Title</label>
+                <input type="text" class="form__field" id="form-username" name="title" formControlName="title">
+                <div
+                  *ngIf="addCompletedProjectForm.get('title').invalid && (addCompletedProjectForm.get('title').dirty || addCompletedProjectForm.get('title').touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="addCompletedProjectForm.get('title').errors.required"> * Title is required.</div>
+                  <div *ngIf="addCompletedProjectForm.get('title').errors.maxlength"> * Maxlength is 30.</div>
+                  <div *ngIf="addCompletedProjectForm.get('title').errors.minlength">* Minimum length is 5.</div>
+                  <div *ngIf="addCompletedProjectForm.get('title').errors.pattern">* Should not contain any special
+                    character.
+                  </div>
+                </div>
+              </div>
+
+              <div class="form__group">
+                <label for="form-password" class="form__label">About Project</label>
+                <textarea name="brief" id="" rows="5" class="form__field" placeholder="About Project"
+                  formControlName="about"></textarea>
+                <div
+                  *ngIf="addCompletedProjectForm.get('about').invalid && (addCompletedProjectForm.get('about').dirty || addCompletedProjectForm.get('about').touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="addCompletedProjectForm.get('about').errors.required"> * About is required.</div>
+                  <div *ngIf="addCompletedProjectForm.get('about').errors.minlength">* Minimum length is 20
+                  </div>
+                  <div *ngIf="addCompletedProjectForm.get('about').errors.maxlength">* Maxlength is 100
+                  </div>
+                </div>
+              </div>
+
+              <div class="form__group">
+                <label for="form-username" class="form__label">Live Link</label>
+                <input type="text" class="form__field" name="live_link" formControlName="live_link">
+                <div
+                  *ngIf="addCompletedProjectForm.get('live_link').invalid && (addCompletedProjectForm.get('live_link').dirty || addCompletedProjectForm.get('live_link').touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="addCompletedProjectForm.get('live_link').errors.required"> * Live link is required.</div>
+                  <div *ngIf="addCompletedProjectForm.get('live_link').errors.pattern">* Should be a valid url
+                    (https://www.example.com)
+                  </div>
+                </div>
+              </div>
+
+              <div class="form__group">
+                <div class="input-group mb-3">
+                  <input type="file" (change)="uploadThumbnail($event)" required>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+          <div class="form__button-group">
+            <button class="button button--shadow button--primary" [disabled]="addCompletedProjectForm.invalid">
+              Add Project
+            </button>
+          </div>
+
+        </form>
+
+        <div class="progress" *ngIf="uploading">
+          <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75"
+            aria-valuemin="0" aria-valuemax="100" [style.width]="uploadPercentage"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Post Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
         <form class="form-horizontal" [formGroup]="postForm">
           <div class="form-group">
             <label class="control-label col-sm-2" for="title">Title:</label>
